@@ -9,7 +9,9 @@ module.exports = defineConfig({
     },
   },
   env: {
-    randomUsername: ''
+    randomUsername: '',
+    emptyMessageError:'Please enter a username and password.',
+    invalidValuesMessageError:'An internal error has occurred and has been logged.'
   },
   reporter: 'cypress-mochawesome-reporter',
   });
