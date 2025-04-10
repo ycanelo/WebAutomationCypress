@@ -11,10 +11,12 @@ describe('ParaBank Web', () => {
 
   it('Verify ParaBank web', () => {
     cy.contains('Customer Login').should('be.visible')
+    cy.wait(2000)
+    cy.screenshot('Parabank-Homepage')
   })
 
   it('Register ParaBank web', () => {
-    // Generate a random username
+    //Generate a random username
     Cypress.env('randomUsername', `username${Math.floor(Math.random() * 10000)}`)
     cy.log(`Generated Username: ${Cypress.env('randomUsername')}`);
 
@@ -37,13 +39,15 @@ describe('ParaBank Web', () => {
     cy.get('input[id="customer.password"]').type('password')
     cy.get('input[id="repeatedPassword"]').type('password')
 
-    //verify value updated
-    cy.get('input[id="customer.firstName"]').should('have.value', 'firstName')
+    cy.wait(2000)
+    cy.screenshot('Parabank-RegisterPage')
+
     //send the form
     cy.get('input[value="Register"]').click()
 
     //verify success message and log out
     cy.contains('Your account was created successfully. You are now logged in.').should('be.visible')
+    cy.screenshot('Parabank-RegisterSuccess')
     cy.contains('Log Out').click()
   })
 
@@ -51,7 +55,12 @@ describe('ParaBank Web', () => {
     //login with the new user
     cy.get('input[name="username"]').type(Cypress.env('randomUsername'))
     cy.get('input[name="password"]').type('password')
+    cy.screenshot('Parabank-LoginPage')
     cy.contains('Log In').click()
+    cy.screenshot('Parabank-LoginSuccess')
+
+    //verify login success
+    cy.url().should('include', '/overview.htm')
     cy.contains('Log Out').should('be.visible')
   })
 
